@@ -9,12 +9,15 @@ User.init(
   },
   { sequelize, modelName: "user" }
 );
-
+try {
+  sequelize.sync();
+} catch (e) {}
 (async () => {
-  await sequelize.sync();
-  const jane = await User.create({
-    username: "janedoe",
-    birthday: new Date(1980, 6, 20),
-  });
-  console.log(jane.toJSON());
+  //   const jane = await User.create({
+  //     username: "janedoe",
+  //     birthday: new Date(1980, 6, 20),
+  //   });
+  //   console.log(jane.toJSON());
 })();
+
+export { User, sequelize };

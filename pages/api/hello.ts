@@ -1,13 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
+import { User, sequelize } from "../../database/database";
 
 type Data = {
-  name: string
-}
+  name: string;
+  message?: string;
+};
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+    const users = await User.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ name: "Seomthing went wrong" });
+
+    console.error("Unable to connect to the database:", error);
+  }
 }
