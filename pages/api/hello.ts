@@ -17,8 +17,7 @@ export default async function handler(
     const users = await User.findAll();
     res.status(200).json(users);
   } catch (error) {
-    res.status(400).json({ name: "Seomthing went wrong" });
-
     console.error("Unable to connect to the database:", error);
+    res.status(400).json({ name: "Selecting data failed" });
   }
 }
